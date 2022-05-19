@@ -1,0 +1,35 @@
+[
+    {
+        "content":{
+            "titulo": "O que é o Personal App?",
+            "descricao": "Somos um projeto desenvolvido para a P1 de programação para dispositivos móveis na Fatec Ribeirão Preto com intuito de iniciar o desenvolvimento do Trabalho de Conclusão de Curso"
+        }
+        
+    },
+    {
+        "content":{
+            "titulo": "Objetivo do projeto",
+            "descricao": "O objetivo desse projeto é desenvolver um aplicativo para intermediação de aluno com personal trainer, permitindo acessar seus treinos, conversa e metas pessoais"
+        }
+    },
+    {
+        "content":{
+            "titulo": "Tema",
+            "descricao": "O tema do projeto é  incluir  a atividade física para usuários de smartphones para que tenham uma vida mais leve e saudável"
+        }
+    },
+    {
+        "content":{
+            "titulo": "Desenvolvido por",
+            "descricao": "Eduardo Petrilli\nCursando ADS, 4º semestre, Diurno\nRA: 2840482021004"
+        }
+    },
+    {
+        "content":{
+            "titulo": "",
+            "descricao": "Abner Mioti\nCursando ADS, 4º semestre, Diurno\nRA: 2840482021015"
+        }
+    }
+
+]
+    
