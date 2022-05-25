@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "987295841474",
+    "project_id": "tcc-personal-app",
+    "storage_bucket": "tcc-personal-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:987295841474:android:dae5b2f43b4a3259868f5b",
+        "android_client_info": {
+          "package_name": "com.example.personal_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "987295841474-71c92fse0a0m3g2td5brplhf1pnbq69k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFb6ToOzm5SZrSVqNXOYPrgyg3aZc_Sl4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "987295841474-71c92fse0a0m3g2td5brplhf1pnbq69k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

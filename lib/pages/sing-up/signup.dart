@@ -118,7 +118,12 @@ class _SignupState extends State<Signup> {
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        Navigator.pushNamed(context, '/info-contatos');
+                        Navigator.pushNamed(context, '/info-contatos',
+                            arguments: {
+                              "nome": _nome.text,
+                              "email": _email.text,
+                              "senha": _senha.text,
+                            });
                       }
                     },
                   ),

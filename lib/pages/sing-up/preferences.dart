@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../widgets/mensagem.dart';
 
 class Preferences extends StatefulWidget {
   const Preferences({Key? key}) : super(key: key);
@@ -13,6 +17,11 @@ class Preferences extends StatefulWidget {
 class _Preferences extends State<Preferences> {
   @override
   Widget build(BuildContext context) {
+    var dados =
+        ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+
+    print(dados);
+
     return Scaffold(
       appBar: (AppBar(
         centerTitle: false,
@@ -162,7 +171,7 @@ class _Preferences extends State<Preferences> {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/home-page');
+                      criarConta(dados["nome"], dados["email"], dados["senha"]);
                     },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.zero,
@@ -254,5 +263,29 @@ class _Preferences extends State<Preferences> {
         ),
       ),
     );
+  }
+
+  void criarConta(nome, email, senha) {
+    FirebaseAuth.instance
+        .createUserWithEmailAndPassword(email: email, password: senha)
+        .then((res) {
+      //ARMAZENAR O NOME NA COLEÇÃO DE USUÁRIOS
+      FirebaseFirestore.instance.collection('usuarios').add({
+        "uid": res.user!.uid.toString(),
+        "nome": nome,
+      });
+      Navigator.pushNamed(context, '/home-page');
+    }).catchError((e) {
+      switch (e.code) {
+        case 'invalid-email':
+          erro(context, 'O formato do email é inválido.');
+          break;
+        case 'email-already-in-use':
+          erro(context, 'O email já foi cadastrado.');
+          break;
+        default:
+          erro(context, e.code.toString());
+      }
+    });
   }
 }

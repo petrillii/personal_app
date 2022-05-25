@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:personal_app/pages/menu/home-page.dart';
@@ -10,10 +11,15 @@ import 'package:personal_app/pages/sign-in/login-home.dart';
 import 'package:personal_app/pages/sign-in/login.dart';
 import 'package:personal_app/pages/sing-up/signup.dart';
 
+import 'firebase_options.dart';
 import 'pages/sing-up/info-contatos.dart';
 import 'pages/sing-up/preferences.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,

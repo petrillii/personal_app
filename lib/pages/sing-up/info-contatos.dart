@@ -18,6 +18,9 @@ class _InfoContatosState extends State<InfoContatos> {
 
   @override
   Widget build(BuildContext context) {
+    var dados =
+        ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+
     return Scaffold(
       appBar: (AppBar(
         centerTitle: false,
@@ -118,7 +121,11 @@ class _InfoContatosState extends State<InfoContatos> {
                       textAlign: TextAlign.center,
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/preferences');
+                      dados["cep"] = _cep.text;
+
+                      Navigator.pushNamed(context, '/preferences',
+                          arguments: dados);
+
                       /* if (_formKey.currentState!.validate()) {
                         Navigator.pushNamed(context, '/info-contatos');
                       } */
