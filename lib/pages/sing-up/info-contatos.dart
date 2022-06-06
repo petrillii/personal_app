@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:via_cep_flutter/via_cep_flutter.dart';
 
 class InfoContatos extends StatefulWidget {
   const InfoContatos({Key? key}) : super(key: key);
@@ -95,8 +96,27 @@ class _InfoContatosState extends State<InfoContatos> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              campoTexto("CEP",
-                  _cep), //ALTERAR PARA STEPS AO INVES DE TROCAR DE PAGINA
+              TextFormField(
+                controller: _cep,
+                obscureText: false,
+                decoration: const InputDecoration(
+                  isDense: true,
+                  labelText: "CEP",
+                  labelStyle: TextStyle(
+                    fontSize: 15,
+                    color: Color.fromARGB(255, 131, 132, 133),
+                  ),
+                  hintText: 'Insira seu ' + "CEP",
+                  hintStyle: TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+                onChanged: (value) {
+                  if (_cep.text.length == 8) {
+                    _getCep();
+                  }
+                },
+              ),
               const SizedBox(height: 20),
               campoTexto("Rua*", _rua),
               const SizedBox(height: 20),
@@ -122,7 +142,11 @@ class _InfoContatosState extends State<InfoContatos> {
                     ),
                     onPressed: () {
                       dados["cep"] = _cep.text;
-
+                      dados["rua"] = _rua.text;
+                      dados["num"] = _num.text;
+                      dados["bairro"] = _bairro.text;
+                      dados["cidade"] = _cidade.text;
+                      dados["celular"] = _celular.text;
                       Navigator.pushNamed(context, '/preferences',
                           arguments: dados);
 
@@ -145,6 +169,15 @@ class _InfoContatosState extends State<InfoContatos> {
         ),
       ))),
     );
+  }
+
+  void _getCep() async {
+    print(_cep.text);
+    final result = await readAddressByCep(_cep.text);
+    if (result.isEmpty) return;
+    _rua.text = result['street'];
+    _bairro.text = result['neighborhood'];
+    _cidade.text = result['city'];
   }
 
   campoTexto(rotulo, variavel) {

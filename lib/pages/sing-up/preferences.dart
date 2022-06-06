@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../model/sign-up.model.dart';
 import '../widgets/mensagem.dart';
 
 class Preferences extends StatefulWidget {
@@ -171,7 +174,7 @@ class _Preferences extends State<Preferences> {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () {
-                      criarConta(dados["nome"], dados["email"], dados["senha"]);
+                      criarConta(dados);
                     },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.zero,
@@ -265,15 +268,13 @@ class _Preferences extends State<Preferences> {
     );
   }
 
-  void criarConta(nome, email, senha) {
+  void criarConta(data) {
     FirebaseAuth.instance
-        .createUserWithEmailAndPassword(email: email, password: senha)
+        .createUserWithEmailAndPassword(
+            email: data["email"], password: data["senha"])
         .then((res) {
-      //ARMAZENAR O NOME NA COLEÇÃO DE USUÁRIOS
-      FirebaseFirestore.instance.collection('usuarios').add({
-        "uid": res.user!.uid.toString(),
-        "nome": nome,
-      });
+      data["uid"] = res.user!.uid.toString();
+      FirebaseFirestore.instance.collection('usuarios').add(data.toJson());
       Navigator.pushNamed(context, '/home-page');
     }).catchError((e) {
       switch (e.code) {
