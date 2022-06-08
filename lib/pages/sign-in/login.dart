@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+
+import '../widgets/mensagem.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -10,11 +13,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  var users = [
-    {"email": "petrillieduardo4@gmail.com", "senha": "123456"},
-    {"email": "awmmanha@hotmail.com", "senha": "123456"},
-    {"email": "admin@admin", "senha": "admin"},
-  ];
   String _errorEmail = '';
   var txtEmail = TextEditingController();
   var txtPassword = TextEditingController();
@@ -178,29 +176,7 @@ class _LoginState extends State<Login> {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () {
-                      if (txtEmail.text == "admin@admin" &&
-                          txtPassword.text == "admin") {
-                        Navigator.pushNamed(context, '/home-page');
-                      } else {
-                        showDialog<String>(
-                          context: context,
-                          builder: (BuildContext context) => AlertDialog(
-                            title: const Text('Erro'),
-                            content: const Text('Usuário ou senha incorretos'),
-                            actions: <Widget>[
-                              TextButton(
-                                onPressed: () =>
-                                    Navigator.pop(context, 'Cancel'),
-                                child: const Text('Cancel'),
-                              ),
-                              TextButton(
-                                onPressed: () => Navigator.pop(context, 'OK'),
-                                child: const Text('OK'),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
+                      login(txtEmail.text, txtPassword.text);
                     },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.zero,
@@ -309,9 +285,6 @@ class _LoginState extends State<Login> {
             fontSize: 15,
           ),
         ),
-        onChanged: (val) {
-          validateEmail(val);
-        },
       )),
     );
   }
@@ -349,19 +322,26 @@ class _LoginState extends State<Login> {
     );
   }
 
-  void validateEmail(String val) {
-    if (val.isEmpty) {
-      setState(() {
-        _errorEmail = "Insira um Email";
-      });
-    } else if (!EmailValidator.validate(val, true)) {
-      setState(() {
-        _errorEmail = "Endereço de Email inválido";
-      });
-    } else {
-      setState(() {
-        _errorEmail = "";
-      });
-    }
+  void login(email, senha) {
+    FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email, password: senha)
+        .then((res) {
+      //TUDO CERTO
+      Navigator.pushNamed(context, '/home-page');
+    }).catchError((e) {
+      switch (e.code) {
+        case 'invalid-email':
+          erro(context, 'Senha ou Email incorretos.');
+          break;
+        case 'user-not-found':
+          erro(context, 'Usuário não encontrado.');
+          break;
+        case 'wrong-password':
+          erro(context, 'Senha ou Email incorretos.');
+          break;
+        default:
+          erro(context, e.code.toString());
+      }
+    });
   }
 }

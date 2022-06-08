@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:personal_app/model/sign-up.model.dart';
+
+import '../widgets/mensagem.dart';
 
 class Signup extends StatefulWidget {
   const Signup({Key? key}) : super(key: key);
@@ -21,6 +24,8 @@ class _SignupState extends State<Signup> {
 
   @override
   Widget build(BuildContext context) {
+    var id = ModalRoute.of(context)!.settings.arguments;
+
     return Scaffold(
       appBar: (AppBar(
         centerTitle: false,
@@ -124,6 +129,16 @@ class _SignupState extends State<Signup> {
                               "email": _email.text,
                               "senha": _senha.text,
                             });
+                      }
+                      if (id == null) {
+                        FirebaseFirestore.instance.collection('usuario').add(
+                          {
+                            "nome": _nome.text,
+                            "email": _email.text,
+                            "senha": _senha.text,
+                          },
+                        );
+                        sucesso(context, 'O item foi adicionado com sucesso.');
                       }
                     },
                   ),
