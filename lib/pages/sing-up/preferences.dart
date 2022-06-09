@@ -18,6 +18,7 @@ class Preferences extends StatefulWidget {
 }
 
 class _Preferences extends State<Preferences> {
+  var selectedCategories;
   @override
   Widget build(BuildContext context) {
     var dados =
@@ -103,12 +104,12 @@ class _Preferences extends State<Preferences> {
               children: [
                 Row(
                   children: [
-                    generateCategories(color: Colors.white, name: 'Musculação')
+                    generateCategories(colorR: Colors.white, name: 'Musculação')
                   ],
                 ),
                 Row(
                   children: [
-                    generateCategories(color: Colors.red, name: 'HIIT')
+                    generateCategories(colorR: Colors.red, name: 'HIIT')
                   ],
                 )
               ],
@@ -119,13 +120,13 @@ class _Preferences extends State<Preferences> {
               children: [
                 Row(
                   children: [
-                    generateCategories(color: Colors.purple, name: 'Yoga')
+                    generateCategories(colorR: Colors.purple, name: 'Yoga')
                   ],
                 ),
                 Row(
                   children: [
                     generateCategories(
-                        color: Colors.blue.shade200, name: 'Meditação')
+                        colorR: Colors.blue.shade200, name: 'Meditação')
                   ],
                 )
               ],
@@ -136,13 +137,13 @@ class _Preferences extends State<Preferences> {
               children: [
                 Row(
                   children: [
-                    generateCategories(color: Colors.orange, name: 'Funcional')
+                    generateCategories(colorR: Colors.orange, name: 'Funcional')
                   ],
                 ),
                 Row(
                   children: [
                     generateCategories(
-                        color: Colors.green.shade100, name: 'Fit Dance')
+                        colorR: Colors.green.shade100, name: 'Fit Dance')
                   ],
                 )
               ],
@@ -153,12 +154,13 @@ class _Preferences extends State<Preferences> {
               children: [
                 Row(
                   children: [
-                    generateCategories(color: Colors.green, name: 'LPO')
+                    generateCategories(colorR: Colors.green, name: 'LPO')
                   ],
                 ),
                 Row(
                   children: [
-                    generateCategories(color: Colors.yellow, name: 'Calistenia')
+                    generateCategories(
+                        colorR: Colors.yellow, name: 'Calistenia')
                   ],
                 )
               ],
@@ -235,16 +237,17 @@ class _Preferences extends State<Preferences> {
     );
   }
 
-  generateCategories({required Color color, required String name}) {
+  generateCategories({required Color colorR, required String name}) {
     return SizedBox(
       width: 150,
       height: 50,
       child: ElevatedButton(
         onPressed: () {
+          selectedCategories["pref_cat"] = name;
           //CATEGORIA SELECIONADA
         },
         style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(color),
+            backgroundColor: MaterialStateProperty.all<Color>(colorR),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
@@ -271,9 +274,12 @@ class _Preferences extends State<Preferences> {
         .createUserWithEmailAndPassword(
             email: data["email"], password: data["senha"])
         .then((res) {
-      data["uid"] = res.user!.uid.toString();
       data.remove("senha");
-      FirebaseFirestore.instance.collection('usuarios').add({'dados': data});
+      FirebaseFirestore.instance.collection('usuarios').add({
+        'dados': data,
+        'uid': res.user!.uid.toString(),
+        'preferencias': selectedCategories
+      });
       Navigator.pushNamed(context, '/home-page');
     }).catchError((e) {
       switch (e.code) {

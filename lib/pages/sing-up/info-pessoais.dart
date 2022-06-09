@@ -151,7 +151,7 @@ class _InfoPessoaisState extends State<InfoPessoais> {
                 obscureText: false,
                 decoration: const InputDecoration(
                   isDense: true,
-                  labelText: "Peso",
+                  labelText: "Altura",
                   labelStyle: TextStyle(
                     fontSize: 15,
                     color: Color.fromARGB(255, 131, 132, 133),
@@ -168,12 +168,12 @@ class _InfoPessoaisState extends State<InfoPessoais> {
                 obscureText: false,
                 decoration: const InputDecoration(
                   isDense: true,
-                  labelText: "% Massa Corpórea",
+                  labelText: "% Percentual de Gordura",
                   labelStyle: TextStyle(
                     fontSize: 15,
                     color: Color.fromARGB(255, 131, 132, 133),
                   ),
-                  hintText: '% Massa Corpórea',
+                  hintText: '% Percentual de Gordura',
                   hintStyle: TextStyle(
                     fontSize: 15,
                   ),
