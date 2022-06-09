@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:personal_app/pages/menu/home-page.dart';
+import 'package:personal_app/pages/menu/inserir-treino.dart';
 import 'package:personal_app/pages/onBoarding/about-us.dart';
 import 'package:personal_app/pages/onBoarding/onBoarding.dart';
 import 'package:personal_app/pages/sign-in/forgot-password/congratulations-password.dart';
@@ -36,7 +37,8 @@ void main() async {
         '/aboutus': (context) => const AboutUs(),
         '/home-page': (context) => const HomePage(),
         '/info-contatos': (context) => const InfoContatos(),
-        '/info-pessoais': (context) => const InfoPessoais()
+        '/info-pessoais': (context) => const InfoPessoais(),
+        '/inserir-treino': (context) => const InserirTreino()
       },
     ),
   );
