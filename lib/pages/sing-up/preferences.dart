@@ -22,7 +22,6 @@ class _Preferences extends State<Preferences> {
   Widget build(BuildContext context) {
     var dados =
         ModalRoute.of(context)!.settings.arguments as Map<String, String>;
-    var preferences;
 
     return Scaffold(
       appBar: (AppBar(

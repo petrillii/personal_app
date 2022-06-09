@@ -225,7 +225,7 @@ class _InfoPessoaisState extends State<InfoPessoais> {
     showDatePicker(
             context: context,
             initialDate: DateTime.now(),
-            firstDate: DateTime(2020),
+            firstDate: DateTime(1920),
             lastDate: DateTime.now())
         .then((pickedDate) {
       if (pickedDate == null) {
