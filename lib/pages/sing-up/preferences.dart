@@ -23,8 +23,6 @@ class _Preferences extends State<Preferences> {
     var dados =
         ModalRoute.of(context)!.settings.arguments as Map<String, String>;
 
-    print(dados);
-
     return Scaffold(
       appBar: (AppBar(
         centerTitle: false,
@@ -274,7 +272,8 @@ class _Preferences extends State<Preferences> {
             email: data["email"], password: data["senha"])
         .then((res) {
       data["uid"] = res.user!.uid.toString();
-      FirebaseFirestore.instance.collection('usuarios').add(data.toJson());
+      data.remove("senha");
+      FirebaseFirestore.instance.collection('usuarios').add({'dados': data});
       Navigator.pushNamed(context, '/home-page');
     }).catchError((e) {
       switch (e.code) {

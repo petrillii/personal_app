@@ -9,6 +9,7 @@ import 'package:personal_app/pages/sign-in/forgot-password/forgot-password.dart'
 import 'package:personal_app/pages/sign-in/forgot-password/update-password.dart';
 import 'package:personal_app/pages/sign-in/login-home.dart';
 import 'package:personal_app/pages/sign-in/login.dart';
+import 'package:personal_app/pages/sing-up/info-pessoais.dart';
 import 'package:personal_app/pages/sing-up/signup.dart';
 
 import 'firebase_options.dart';
@@ -37,6 +38,7 @@ void main() async {
         '/aboutus': (context) => const AboutUs(),
         '/home-page': (context) => const HomePage(),
         '/info-contatos': (context) => const InfoContatos(),
+        '/info-pessoais': (context) => const InfoPessoais()
       },
     ),
   );
