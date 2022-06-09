@@ -1,49 +1,41 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:email_validator/email_validator.dart';
 
-class LoginHome extends StatelessWidget {
-  const LoginHome({Key? key}) : super(key: key);
+import '../widgets/mensagem.dart';
+
+class Login extends StatefulWidget {
+  const Login({Key? key}) : super(key: key);
+
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  String _errorEmail = '';
+  var txtEmail = TextEditingController();
+  var txtPassword = TextEditingController();
+  bool isChecked = false;
+  bool _passwordVisible = false;
 
   @override
   Widget build(BuildContext context) {
+    Color getColor(Set<MaterialState> states) {
+      const Set<MaterialState> interactiveStates = <MaterialState>{
+        MaterialState.pressed,
+        MaterialState.hovered,
+        MaterialState.focused,
+      };
+      if (states.any(interactiveStates.contains)) {
+        return Colors.blue;
+      }
+      return const Color.fromARGB(255, 255, 162, 1);
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              TextButton(
-                child: const Text(
-                  'ENTRAR',
-                  style: TextStyle(
-                      color: Color.fromARGB(255, 255, 91, 98), fontSize: 18),
-                ),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/login');
-                },
-              ),
-              SizedBox(
-                height: 50.0,
-                width: 30.0,
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.arrow_forward_ios,
-                    color: Color.fromARGB(255, 255, 91, 98),
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/login');
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(25),
@@ -69,7 +61,76 @@ class LoginHome extends StatelessWidget {
                       )),
                 ],
               ),
-              const SizedBox(height: 100),
+              const SizedBox(height: 50),
+              campoEmail('Email', txtEmail),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(35, 5, 35, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      _errorEmail,
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 30),
+              campoSenha('Senha', txtPassword),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(30, 0, 35, 0),
+                child: Row(
+                  children: [
+                    TextButton(
+                      child: const Text(
+                        'Esqueceu a senha?',
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 131, 132, 133),
+                            fontSize: 15),
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/forgot-password');
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(25, 0, 35, 0),
+                child: Row(
+                  children: [
+                    Row(
+                      children: [
+                        Checkbox(
+                          checkColor: Colors.white,
+                          fillColor:
+                              MaterialStateProperty.resolveWith(getColor),
+                          value: isChecked,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              isChecked = value!;
+                            });
+                          },
+                        ),
+                        TextButton(
+                          child: const Text(
+                            'Lembrar de mim?',
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 131, 132, 133),
+                                fontSize: 15),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              isChecked = !isChecked;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 80),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -78,7 +139,7 @@ class LoginHome extends StatelessWidget {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/signup');
+                        login(txtEmail.text, txtPassword.text);
                       },
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.zero,
@@ -105,7 +166,7 @@ class LoginHome extends StatelessWidget {
                           height: 100,
                           alignment: Alignment.center,
                           child: const Text(
-                            "INSCREVA-SE",
+                            "ENTRAR",
                             style: TextStyle(
                               fontSize: 18,
                             ),
@@ -125,7 +186,7 @@ class LoginHome extends StatelessWidget {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        //Navigator.pushNamed(context, '/login');
+                        Navigator.pushNamed(context, '/signup');
                       },
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.zero,
@@ -163,35 +224,19 @@ class LoginHome extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextButton(
                     child: const Text(
-                      'SOBRE',
+                      'INSCREVA-SE',
                       style: TextStyle(
                           color: Color.fromARGB(255, 131, 132, 133),
                           fontSize: 18),
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/onboarding');
-                    },
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextButton(
-                    child: const Text(
-                      'QUEM SOMOS NÓS',
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 131, 132, 133),
-                          fontSize: 18),
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/aboutus');
+                      Navigator.pushNamed(context, '/signup');
                     },
                   ),
                 ],
@@ -200,6 +245,103 @@ class LoginHome extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void login(email, senha) {
+    FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email, password: senha)
+        .then((res) {
+      //TUDO CERTO
+      Navigator.pushNamed(context, '/home-page');
+    }).catchError((e) {
+      switch (e.code) {
+        case 'invalid-email':
+          erro(context, 'Senha ou Email incorretos.');
+          break;
+        case 'user-not-found':
+          erro(context, 'Usuário não encontrado.');
+          break;
+        case 'wrong-password':
+          erro(context, 'Senha ou Email incorretos.');
+          break;
+        default:
+          erro(context, e.code.toString());
+      }
+    });
+  }
+
+  void validateEmail(String val) {
+    if (val.isEmpty) {
+      setState(() {
+        _errorEmail = "Insira um Email";
+      });
+    } else if (!EmailValidator.validate(val, true)) {
+      setState(() {
+        _errorEmail = "Endereço de Email inválido";
+      });
+    } else {
+      setState(() {
+        _errorEmail = "";
+      });
+    }
+  }
+
+  campoEmail(rotulo, variavel) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(35, 0, 35, 0),
+      child: (TextFormField(
+        controller: variavel,
+        obscureText: false,
+        decoration: InputDecoration(
+          isDense: true,
+          labelText: rotulo,
+          labelStyle: const TextStyle(
+            fontSize: 15,
+            color: Color.fromARGB(255, 131, 132, 133),
+          ),
+          hintText: 'Insira seu ' + rotulo,
+          hintStyle: const TextStyle(
+            fontSize: 15,
+          ),
+        ),
+        onChanged: (val) {
+          validateEmail(val);
+        },
+      )),
+    );
+  }
+
+  campoSenha(rotulo, variavel) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(35, 0, 35, 0),
+      child: (TextFormField(
+        controller: variavel,
+        obscureText: !_passwordVisible,
+        decoration: InputDecoration(
+          isDense: true,
+          labelText: rotulo,
+          labelStyle: const TextStyle(
+            fontSize: 15,
+            color: Color.fromARGB(255, 131, 132, 133),
+          ),
+          hintText: 'Insira sua ' + rotulo,
+          hintStyle: const TextStyle(
+            fontSize: 15,
+          ),
+          suffixIcon: IconButton(
+            icon: Icon(
+              _passwordVisible ? Icons.visibility : Icons.visibility_off,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              setState(() {
+                _passwordVisible = !_passwordVisible;
+              });
+            },
+          ),
+        ),
+      )),
     );
   }
 }

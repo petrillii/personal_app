@@ -22,6 +22,7 @@ class _Preferences extends State<Preferences> {
   Widget build(BuildContext context) {
     var dados =
         ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+    var preferences;
 
     return Scaffold(
       appBar: (AppBar(
@@ -224,7 +225,7 @@ class _Preferences extends State<Preferences> {
                     textAlign: TextAlign.center,
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/home-page');
+                    criarConta(dados);
                   },
                 ),
               ],

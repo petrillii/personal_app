@@ -147,12 +147,8 @@ class _InfoContatosState extends State<InfoContatos> {
                       dados["bairro"] = _bairro.text;
                       dados["cidade"] = _cidade.text;
                       dados["celular"] = _celular.text;
-                      Navigator.pushNamed(context, '/preferences',
+                      Navigator.pushNamed(context, '/info-pessoais',
                           arguments: dados);
-
-                      /* if (_formKey.currentState!.validate()) {
-                        Navigator.pushNamed(context, '/info-contatos');
-                      } */
                     },
                   ),
                   IconButton(
@@ -160,7 +156,16 @@ class _InfoContatosState extends State<InfoContatos> {
                       Icons.arrow_forward_ios,
                       color: Color.fromARGB(255, 255, 91, 98),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      dados["cep"] = _cep.text;
+                      dados["rua"] = _rua.text;
+                      dados["num"] = _num.text;
+                      dados["bairro"] = _bairro.text;
+                      dados["cidade"] = _cidade.text;
+                      dados["celular"] = _celular.text;
+                      Navigator.pushNamed(context, '/info-pessoais',
+                          arguments: dados);
+                    },
                   ),
                 ],
               ),

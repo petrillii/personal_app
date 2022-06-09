@@ -8,7 +8,6 @@ import 'package:personal_app/pages/sign-in/forgot-password/congratulations-passw
 import 'package:personal_app/pages/sign-in/forgot-password/forgot-password.dart';
 import 'package:personal_app/pages/sign-in/forgot-password/update-password.dart';
 import 'package:personal_app/pages/sign-in/login-home.dart';
-import 'package:personal_app/pages/sign-in/login.dart';
 import 'package:personal_app/pages/sing-up/info-pessoais.dart';
 import 'package:personal_app/pages/sing-up/signup.dart';
 
@@ -25,11 +24,10 @@ void main() async {
     MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Personal App',
-      initialRoute: '/',
+      initialRoute: '/login',
       routes: {
-        '/': (context) => const LoginHome(),
-        '/onboarding': (context) => const OnBoarding(),
         '/login': (context) => const Login(),
+        '/onboarding': (context) => const OnBoarding(),
         '/forgot-password': (context) => const ForgotPassword(),
         '/signup': (context) => const Signup(),
         '/update-password': (context) => const UpdatePassword(),

@@ -15,7 +15,6 @@ class _SignupState extends State<Signup> {
   final TextEditingController _senha = TextEditingController();
   final TextEditingController _confirmarSenha = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  int steps = 1;
   bool _passwordVisible = false;
   bool _confirmPasswordVisible = false;
 
