@@ -21,7 +21,6 @@
   <h3 align="center">Personal App</h3>
 
   <p align="center">
-    Trabalho de Conclusão de Curso Fatec Ribeirão Preto
     v0.1.0
     O Peronsal App é uma plataforma desenvolvida para conectar Personais Trainers com alunos, explorando gostos de atividades físicas individuais de cada um.
     <br />
